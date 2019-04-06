@@ -36,9 +36,9 @@ namespace circle_backend.Controllers
         public void Put(int sessionId, string code)
         {
             sessionRepository.InsertSession(sessionId,code);
-            sessionRepository.InsertTextMessageForSession(sessionId, new TextMessage()
-            {
-                    
+            sessionRepository.InsertTextMessageForSession(sessionId,
+                                                          new TextMessage{
+                
             });
         }
 

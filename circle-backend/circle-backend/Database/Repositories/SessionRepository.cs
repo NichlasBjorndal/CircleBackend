@@ -22,8 +22,8 @@ namespace circle_backend.Database.Repositories
                 SessionId = sessionId,
                 Code = code,
                 HasStarted = false,
-                TextMessages = new string[] { },
-                DrawingMessages = new string[] { }
+                TextMessages = new List<TextMessage>(),
+                DrawingMessages = new List<DrawingMessage>()
             });
             context.SaveChanges();
         }
@@ -58,42 +58,24 @@ namespace circle_backend.Database.Repositories
 
         public void InsertDrawingMessageForSession(int sessionId, DrawingMessage drawingMessage)
         {
-            var session = context.Sessions.Find(sessionId);
-            session.DrawingMessages.Append(JsonSerializer.DrawingMessageToJson(drawingMessage));
+            var session = context.Sessions.Find(sessionId).DrawingMessages.Append(drawingMessage);
             context.SaveChanges();
         }
 
         public List<DrawingMessage> GetDrawingMessagesForSession(int sessionId)
         {
-            var serializedList = context.Sessions.Find(sessionId).DrawingMessages.ToList();
-            var drawMessageList = new List<DrawingMessage>();
-
-            foreach (var serializedObject in serializedList)
-            {
-                drawMessageList.Append(JsonSerializer.JsonToDrawingMessage(serializedObject));
-            }
-
-            return drawMessageList;
+            return context.Sessions.Find(sessionId).DrawingMessages;
         }
 
         public void InsertTextMessageForSession(int sessionId, TextMessage textMessage)
         {
-            var session = context.Sessions.Find(sessionId);
-            session.TextMessages.Append(JsonSerializer.TextMessageToJson(textMessage));
+            var session = context.Sessions.Find(sessionId).TextMessages.Append(textMessage);
             context.SaveChanges();
         }
 
         public List<TextMessage> GetTextMessagesForSession(int sessionId)
         {
-            var serializedList = context.Sessions.Find(sessionId).TextMessages.ToList();
-            var textMessageList = new List<TextMessage>();
-
-            foreach (var serializedObject in serializedList)
-            {
-                textMessageList.Append(JsonSerializer.JsonToTextMessage(serializedObject));    
-            }
-
-            return textMessageList;
+            return context.Sessions.Find(sessionId).TextMessages;
         }
 
         #region IDisposable Support

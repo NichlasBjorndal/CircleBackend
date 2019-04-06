@@ -1,5 +1,4 @@
-﻿using System;
-using circle_backend.Models;
+﻿using circle_backend.Models;
 using Newtonsoft.Json;
 
 namespace circle_backend.Utilities

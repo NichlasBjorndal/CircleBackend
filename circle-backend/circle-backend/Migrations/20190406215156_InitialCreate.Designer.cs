@@ -10,7 +10,7 @@ using circle_backend;
 namespace circle_backend.Migrations
 {
     [DbContext(typeof(CircleDbContext))]
-    [Migration("20190406163410_InitialCreate")]
+    [Migration("20190406215156_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace circle_backend.Migrations
 
                     b.Property<int>("FromUser");
 
-                    b.Property<int>("SessionId");
+                    b.Property<int?>("SessionId");
 
                     b.Property<int>("ToUser");
 
@@ -68,7 +68,7 @@ namespace circle_backend.Migrations
 
                     b.Property<string>("Message");
 
-                    b.Property<int>("SessionId");
+                    b.Property<int?>("SessionId");
 
                     b.Property<int>("ToUser");
 
@@ -101,16 +101,14 @@ namespace circle_backend.Migrations
                 {
                     b.HasOne("circle_backend.Models.Session")
                         .WithMany("DrawingMessages")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SessionId");
                 });
 
             modelBuilder.Entity("circle_backend.Models.TextMessage", b =>
                 {
                     b.HasOne("circle_backend.Models.Session")
                         .WithMany("TextMessages")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("SessionId");
                 });
 #pragma warning restore 612, 618
         }
