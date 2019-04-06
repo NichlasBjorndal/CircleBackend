@@ -13,7 +13,7 @@ namespace circle_backend
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlite("Data source=circle.db");
+            optionsBuilder.UseNpgsql("Host=localhost;Database=circledb;Username=my_user;Password=my_pw");
         }
     }
 }
