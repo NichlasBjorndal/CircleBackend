@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace circle_backend.Controllers
@@ -25,8 +27,21 @@ namespace circle_backend.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<IActionResult> Post(IFormFile file)
         {
+            if (file == null || file.Length == 0)
+                return Content("file not selected");
+            
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "Files\\images", file.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok(file.OpenReadStream());
+
+
         }
 
         // PUT api/values/5
