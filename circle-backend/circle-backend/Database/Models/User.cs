@@ -10,5 +10,7 @@ namespace circle_backend.Models
         [ForeignKey("Session")]
         public int SessionId { get; set; } 
         public string Name { get; set; } 
+        public bool Ready { get; set; }
+        public bool TurnComplete { get; set; }
     }
 }

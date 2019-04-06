@@ -27,7 +27,8 @@ namespace circle_backend.Migrations
                     UserId = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                     SessionId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Ready = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

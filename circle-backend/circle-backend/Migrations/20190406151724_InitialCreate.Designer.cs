@@ -10,7 +10,7 @@ using circle_backend;
 namespace circle_backend.Migrations
 {
     [DbContext(typeof(CircleDbContext))]
-    [Migration("20190406144925_InitialCreate")]
+    [Migration("20190406151724_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,8 @@ namespace circle_backend.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
+
+                    b.Property<bool>("Ready");
 
                     b.Property<int>("SessionId");
 

@@ -56,6 +56,8 @@ namespace circle_backend.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<bool>("Ready");
+
                     b.Property<int>("SessionId");
 
                     b.HasKey("UserId");
