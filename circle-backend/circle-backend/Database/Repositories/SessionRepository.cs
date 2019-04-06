@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using circle_backend.Models;
+using circle_backend.Utilities;
 
 namespace circle_backend.Database.Repositories
 {
@@ -11,30 +12,32 @@ namespace circle_backend.Database.Repositories
 
         public SessionRepository(CircleDbContext context)
         {
-            this.context = context;            
+            this.context = context;
         }
 
         public void InsertSession(int sessionId, string code)
         {
-            context.Add(new Session()
+            context.Add(new Session
             {
                 SessionId = sessionId,
                 Code = code,
                 HasStarted = false,
-                TextMessages = new List<TextMessage>(),
-                DrawingMessages = new List<DrawingMessage>()
+                TextMessages = new string[] { },
+                DrawingMessages = new string[] { }
             });
+            context.SaveChanges();
         }
-		
+
         public void DeleteSession(int sessionId)
         {
             context.Sessions.Remove(context.Sessions.Find(sessionId));
+            context.SaveChanges();
         }
 
-		public Session GetSessionById(int sessionId)
-		{
+        public Session GetSessionById(int sessionId)
+        {
             return context.Sessions.Find(sessionId);
-		}
+        }
 
         public string GetCodeForSession(int sessionId)
         {
@@ -45,6 +48,7 @@ namespace circle_backend.Database.Repositories
         {
             var session = context.Sessions.Find(sessionId);
             session.HasStarted = hasStarted;
+            context.SaveChanges();
         }
 
         public bool GetStartedStatusForSession(int sessionId)
@@ -55,32 +59,45 @@ namespace circle_backend.Database.Repositories
         public void InsertDrawingMessageForSession(int sessionId, DrawingMessage drawingMessage)
         {
             var session = context.Sessions.Find(sessionId);
-            session.DrawingMessages.Append(drawingMessage);
+            session.DrawingMessages.Append(JsonSerializer.DrawingMessageToJson(drawingMessage));
+            context.SaveChanges();
         }
 
-        public IEnumerable<DrawingMessage> GetDrawingMessagesForSession(int sessionId)
+        public List<DrawingMessage> GetDrawingMessagesForSession(int sessionId)
         {
-            return context.Sessions.Find(sessionId).DrawingMessages;
+            var serializedList = context.Sessions.Find(sessionId).DrawingMessages.ToList();
+            var drawMessageList = new List<DrawingMessage>();
+
+            foreach (var serializedObject in serializedList)
+            {
+                drawMessageList.Append(JsonSerializer.JsonToDrawingMessage(serializedObject));
+            }
+
+            return drawMessageList;
         }
 
         public void InsertTextMessageForSession(int sessionId, TextMessage textMessage)
         {
             var session = context.Sessions.Find(sessionId);
-            session.TextMessages.Append(textMessage);
-        }
-
-        public IEnumerable<TextMessage> GetTextMessagesForSession(int sessionId)
-        {
-            return context.Sessions.Find(sessionId).TextMessages;
-        }
-
-        public void SaveChanges()
-        {
+            session.TextMessages.Append(JsonSerializer.TextMessageToJson(textMessage));
             context.SaveChanges();
         }
 
+        public List<TextMessage> GetTextMessagesForSession(int sessionId)
+        {
+            var serializedList = context.Sessions.Find(sessionId).TextMessages.ToList();
+            var textMessageList = new List<TextMessage>();
+
+            foreach (var serializedObject in serializedList)
+            {
+                textMessageList.Append(JsonSerializer.JsonToTextMessage(serializedObject));    
+            }
+
+            return textMessageList;
+        }
+
         #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
+        bool disposedValue = false; // To detect redundant calls
 
         protected virtual void Dispose(bool disposing)
         {
@@ -90,9 +107,6 @@ namespace circle_backend.Database.Repositories
                 {
                     context.Dispose();
                 }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
 
                 disposedValue = true;
             }
@@ -105,7 +119,6 @@ namespace circle_backend.Database.Repositories
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
         #endregion
     }
 }

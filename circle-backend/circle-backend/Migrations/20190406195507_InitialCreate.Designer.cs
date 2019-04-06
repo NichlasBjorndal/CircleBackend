@@ -10,7 +10,7 @@ using circle_backend;
 namespace circle_backend.Migrations
 {
     [DbContext(typeof(CircleDbContext))]
-    [Migration("20190406151724_InitialCreate")]
+    [Migration("20190406195507_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,24 +21,24 @@ namespace circle_backend.Migrations
                 .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("circle_backend.Models.Message", b =>
+            modelBuilder.Entity("circle_backend.Models.DrawingMessage", b =>
                 {
-                    b.Property<int>("MessageId")
+                    b.Property<int>("DrawId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<byte[]>("Drawing");
 
                     b.Property<int>("FromUser");
 
-                    b.Property<byte[]>("Payload");
-
-                    b.Property<int>("SessionId");
+                    b.Property<int?>("SessionId");
 
                     b.Property<int>("ToUser");
 
-                    b.HasKey("MessageId");
+                    b.HasKey("DrawId");
 
                     b.HasIndex("SessionId");
 
-                    b.ToTable("Message");
+                    b.ToTable("DrawingMessage");
                 });
 
             modelBuilder.Entity("circle_backend.Models.Session", b =>
@@ -46,9 +46,37 @@ namespace circle_backend.Migrations
                     b.Property<int>("SessionId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Code")
+                        .HasMaxLength(4);
+
+                    b.Property<bool>("HasStarted");
+
                     b.HasKey("SessionId");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("Sessions");
+                });
+
+            modelBuilder.Entity("circle_backend.Models.TextMessage", b =>
+                {
+                    b.Property<int>("TextId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("FromUser");
+
+                    b.Property<string>("Message");
+
+                    b.Property<int?>("SessionId");
+
+                    b.Property<int>("ToUser");
+
+                    b.HasKey("TextId");
+
+                    b.HasIndex("SessionId");
+
+                    b.ToTable("TextMessage");
                 });
 
             modelBuilder.Entity("circle_backend.Models.User", b =>
@@ -62,17 +90,25 @@ namespace circle_backend.Migrations
 
                     b.Property<int>("SessionId");
 
+                    b.Property<bool>("TurnComplete");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("circle_backend.Models.Message", b =>
+            modelBuilder.Entity("circle_backend.Models.DrawingMessage", b =>
                 {
                     b.HasOne("circle_backend.Models.Session")
-                        .WithMany("Messages")
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("DrawingMessages")
+                        .HasForeignKey("SessionId");
+                });
+
+            modelBuilder.Entity("circle_backend.Models.TextMessage", b =>
+                {
+                    b.HasOne("circle_backend.Models.Session")
+                        .WithMany("TextMessages")
+                        .HasForeignKey("SessionId");
                 });
 #pragma warning restore 612, 618
         }
