@@ -1,10 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace circle_backend.Models
 {
-    [Serializable]
     public class DrawingMessage
     {
         [Key]
