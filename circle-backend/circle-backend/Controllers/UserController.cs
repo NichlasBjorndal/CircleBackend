@@ -21,9 +21,10 @@ namespace circle_backend.Controllers
             _userRepository = userRepository;
         }
             
-        [HttpPut]
-        public void AddUser([FromBody]User user) 
+        [HttpPut("{sessionId}")]
+        public void AddUser(int sessionId, [FromBody]User user) 
         {
+            user.SessionId = sessionId;
             _userRepository.AddUser(user);
             _userRepository.Save();
         }

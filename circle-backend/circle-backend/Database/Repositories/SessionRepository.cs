@@ -58,7 +58,8 @@ namespace circle_backend.Database.Repositories
 
         public void InsertDrawingMessageForSession(int sessionId, DrawingMessage drawingMessage)
         {
-            var session = context.Sessions.Find(sessionId).DrawingMessages.Append(drawingMessage);
+            var session = context.Sessions.Find(sessionId);
+            session.DrawingMessages.Append(drawingMessage);
             context.SaveChanges();
         }
 
@@ -69,7 +70,8 @@ namespace circle_backend.Database.Repositories
 
         public void InsertTextMessageForSession(int sessionId, TextMessage textMessage)
         {
-            var session = context.Sessions.Find(sessionId).TextMessages.Append(textMessage);
+            var session = context.Sessions.Find(sessionId);
+            session.TextMessages.Add(textMessage);
             context.SaveChanges();
         }
 

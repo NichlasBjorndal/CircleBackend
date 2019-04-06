@@ -10,7 +10,7 @@ using circle_backend;
 namespace circle_backend.Migrations
 {
     [DbContext(typeof(CircleDbContext))]
-    [Migration("20190406215156_InitialCreate")]
+    [Migration("20190406231520_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

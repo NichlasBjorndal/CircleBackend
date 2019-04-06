@@ -29,6 +29,7 @@ namespace circle_backend
             services.AddMvc();
             services.AddEntityFrameworkNpgsql().AddDbContext<CircleDbContext>();
             services.AddScoped<ISessionRepository,SessionRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
