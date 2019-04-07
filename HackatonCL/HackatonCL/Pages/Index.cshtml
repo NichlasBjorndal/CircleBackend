@@ -8,16 +8,19 @@
 
             <input type="button" id="joinButton" value="Join Group" />
             <h1 id="assigendroomname"></h1>
-            <input type="button" id="createButton" value="Create Game" />
-            <br />
+            <input type="button" id="createButton" value="Create Game" class="btn btn-success" />
+            @*<br />*@
             
-            <input type="button" id="sendTargetButton" value="Send Target" />
+            <input type="button" id="sendTargetButton" value="Send Target" class="btn btn-primary" />
             <input type="hidden" id="group" />
+            <br />
         </div>
     </div>
 </div>
 <div id="isdrawing">
     <div id="WordBox"></div>
+    
+    <br />
 
     <div id="sketch">
 
@@ -43,22 +46,16 @@
 
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 
-    <form id="submit-form" action="https://localhost:44302/api/pictureUpload" method="post" enctype="multipart/form-data">
-
-        <input type="file" name="File" id="File" single>
-        <input type="submit" class="btn btn-primary">submit</input>
-    </form>
-    <button id="btnSubmit" onclick="sendImage()">Send</button>
 
 
-    <script>
+    @*<script>
         $(document).ready(function() {
             $(document).on('submit', '#submit-form', function() {
                 // do your things
                 return false;
             });
         });
-    </script>
+    </script>*@
     
 
 </div>
@@ -68,7 +65,8 @@
     
     
     <input type="text" class="form-control" id="guessedWord">
-    <button onclick="sendGuessed()" class="btn btn-primary">Submit</button>
+
+    <button onclick="sendGuessed()" class="btn btn-success">Submit</button>
 </div>
 Message<input type="text" id="messageInput" />
 <input type="button" id="sendButton" value="Send Message" />

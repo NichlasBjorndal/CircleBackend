@@ -73,10 +73,7 @@ namespace HackatonCL.Controllers
                 await file.CopyToAsync(stream);
             }
 
-
             return guid.ToString() + "." + datatype;
-
-
         }
 
     }
