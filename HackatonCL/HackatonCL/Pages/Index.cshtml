@@ -1,21 +1,30 @@
 ﻿@page
 <div class="container" id="isgrouping">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">&nbsp;</div>
-        <div class="col-6">
-            group<input type="text" id="groupInput" />
+	<center>
+        
+		<div class="row" >
+        <h1>
+				Draw'n'Guess
+		</h1>
+		<img src="Images/sidge.jpg"/>
+		</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-6">
+                group<input type="text" id="groupInput" />
 
-            <input type="button" id="joinButton" value="Join Group" />
-            <h1 id="assigendroomname"></h1>
-            <input type="button" id="createButton" value="Create Game" />
-            <br />
-            
-            <input type="hidden" id="sendTargetButton" value="Send Target" />
-            <input type="hidden" id="group" />
-            <input type="hidden" id="picturetosend" />
+                <input type="button" id="joinButton" value="Join Group" />
+                <h1 id="assigendroomname"></h1>
+                <input type="button" id="createButton" value="Create Game" />
+                <br />
+                
+                <input type="hidden" id="sendTargetButton" value="Send Target" />
+                <input type="hidden" id="group" />
+                <input type="hidden" id="picturetosend" />
+            </div>
         </div>
-    </div>
+	</center>
 </div>
 <div id="isdrawing">
 	<br/>
@@ -25,11 +34,10 @@
     <br/>
     <div id="sketch">
 
-        <canvas id="paint"></canvas>
+        <canvas id="paint" width="1200" height="1000"></canvas>
     </div>
     <br/>
     <div id="settings">
-        Colours
         <button onclick="getColor('blue');" class="btn btn-primary">Blue</button>
         <button onclick="getColor('red');" class="btn btn-danger">Red</button>
         <button onclick="getColor('green');" class="btn btn-success">Green</button>
@@ -38,7 +46,6 @@
     </div>
     <br/>
     <div id="settings">
-        Brush Size
         <button onclick="getSize('2');" class="btn btn-info">Small</button>
         <button onclick="getSize('5');" class="btn btn-info">Med</button>
         <button onclick="getSize('10');" class="btn btn-info">Large</button>
