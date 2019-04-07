@@ -1,0 +1,93 @@
+﻿@page
+<div class="container" id="isgrouping">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">&nbsp;</div>
+        <div class="col-6">
+            group<input type="text" id="groupInput" />
+
+            <input type="button" id="joinButton" value="Join Group" />
+            <h1 id="assigendroomname"></h1>
+            <input type="button" id="createButton" value="Create Game" />
+            <br />
+            
+            <input type="button" id="sendTargetButton" value="Send Target" />
+            <input type="hidden" id="group" />
+        </div>
+    </div>
+</div>
+<div id="isdrawing">
+    <div id="WordBox"></div>
+
+    <div id="sketch">
+
+        <canvas id="paint"></canvas>
+    </div>
+
+    <div id="settings">
+        Colours
+        <button onclick="getColor('blue');">Blue</button>
+        <button onclick="getColor('red');">Red</button>
+        <button onclick="getColor('green');">Green</button>
+        <button onclick="getColor('white');">White</button>
+        <button onclick="getColor('#333333');">Eraser</button>
+    </div>
+
+    <div id="settings">
+        Brush Size
+        <button onclick="getSize('2');">Small</button>
+        <button onclick="getSize('5');">Med</button>
+        <button onclick="getSize('10');">Large</button>
+        <button onclick="getSize('20');">X Large</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+
+    <form id="submit-form" action="https://localhost:44302/api/pictureUpload" method="post" enctype="multipart/form-data">
+
+        <input type="file" name="File" id="File" single>
+        <input type="submit" class="btn btn-primary">submit</input>
+    </form>
+    <button id="btnSubmit" onclick="sendImage()">Send</button>
+
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('submit', '#submit-form', function() {
+                // do your things
+                return false;
+            });
+        });
+    </script>
+    
+
+</div>
+
+
+<div id="isguessing"><img id="imagetest" src="" width="600px" height="600px" />
+    
+    
+    <input type="text" class="form-control" id="guessedWord">
+    <button onclick="sendGuessed()" class="btn btn-primary">Submit</button>
+</div>
+Message<input type="text" id="messageInput" />
+<input type="button" id="sendButton" value="Send Message" />
+
+
+
+<script type="text/javascript">
+
+
+        function sendGuessed() {
+            var guessedword = document.getElementById("guessedWord").value;
+            $.ajax({
+                url: "https://localhost:44302/api/picture/guessedWord/"+guessedword+"/"+"1",success: function (result) {
+
+                    console.log(result);
+                }
+            });
+        };
+        </script>
+
+<script src="~/js/signalr.js"></script>
+<script src="~/js/chat.js"></script>
