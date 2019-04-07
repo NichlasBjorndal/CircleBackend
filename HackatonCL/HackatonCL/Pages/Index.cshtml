@@ -18,34 +18,38 @@
     </div>
 </div>
 <div id="isdrawing">
-    <div id="WordBox"></div>
-
+	<br/>
+    	<center>
+            <div id="WordBox" style="font-size: 30px;"></div>
+        </center>
+    <br/>
     <div id="sketch">
 
         <canvas id="paint"></canvas>
     </div>
-
+    <br/>
     <div id="settings">
         Colours
-        <button onclick="getColor('blue');">Blue</button>
-        <button onclick="getColor('red');">Red</button>
-        <button onclick="getColor('green');">Green</button>
-        <button onclick="getColor('white');">White</button>
-        <button onclick="getColor('#333333');">Eraser</button>
+        <button onclick="getColor('blue');" class="btn btn-primary">Blue</button>
+        <button onclick="getColor('red');" class="btn btn-danger">Red</button>
+        <button onclick="getColor('green');" class="btn btn-success">Green</button>
+        <button onclick="getColor('white');" class="btn btn-default">White</button>
+        <button onclick="getColor('#333333');" class="btn btn-warning">Eraser</button>
     </div>
-
+    <br/>
     <div id="settings">
         Brush Size
-        <button onclick="getSize('2');">Small</button>
-        <button onclick="getSize('5');">Med</button>
-        <button onclick="getSize('10');">Large</button>
-        <button onclick="getSize('20');">X Large</button>
+        <button onclick="getSize('2');" class="btn btn-info">Small</button>
+        <button onclick="getSize('5');" class="btn btn-info">Med</button>
+        <button onclick="getSize('10');" class="btn btn-info">Large</button>
+        <button onclick="getSize('20');" class="btn btn-info">X Large</button>
     </div>
-
+    <br/>
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 
-    <button id="btn" onclick="sendImage()">Send</button>
-
+	<center>
+        <button id="btn" onclick="sendImage()">Send</button>
+    </center>
 
     <script>
         $(document).ready(function() {
@@ -67,7 +71,7 @@
     <button id="updateButton" class="btn btn-primary">Submit</button>
 </div>
 <input type="hidden" id="messageInput" />
-<input type="hidden" id="sendButton" value="Send Message" />
+<input type="hidden" id="sendButton" value="Send Message" style="background: #ff0000"/>
 
 
 
