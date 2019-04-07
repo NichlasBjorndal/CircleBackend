@@ -63,8 +63,15 @@ function sendImage() {
 
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-			if (xmlhttp.status == 200) {
-				console.log("post worked");
+            if (xmlhttp.status == 200) {
+                document.getElementById("picturetosend").value = xmlhttp.response;
+
+                var roomname = document.getElementById("group").value;
+                connection.invoke("updateTask", roomname).catch(function (err) {
+                    return console.error(err.toString());
+                });
+
+                event.preventDefault();
 			}
 			else if (xmlhttp.status == 400) {
 				console.log('There was an error 400');
@@ -84,8 +91,9 @@ function sendImage() {
 	    xmlhttp.send(formData);
     }, "image/png" );
 
+    
 
-
+    
 }
 
 //canvasEl.toBlob(blob =>

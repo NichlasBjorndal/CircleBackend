@@ -9,7 +9,7 @@ namespace HackatonCL.repositories
     {
 
         //if this wasent a hackathon i would jump off of the 6th floor
-        public Dictionary<string, List<string>> _groups = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<UserDetails>> _groups = new Dictionary<string, List<UserDetails>>();
         
         
 

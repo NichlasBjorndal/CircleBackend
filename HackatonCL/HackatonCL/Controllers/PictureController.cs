@@ -74,7 +74,7 @@ namespace HackatonCL.Controllers
             }
 
 
-            return guid.ToString() + "." + datatype;
+            return guid.ToString() + ".png";
 
 
         }

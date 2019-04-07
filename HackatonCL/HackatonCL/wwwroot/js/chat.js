@@ -17,6 +17,7 @@ connection.on("ReceiveMessage", function(user, message) {
     var output = message.split("|")[1];
 
     var roomname = document.getElementById("group").value;
+    var picturetosend = document.getElementById("picturetosend").value;
 
     if (message.startsWith("DRAW")) {
         document.getElementById("WordBox").innerHTML = output;
@@ -33,11 +34,12 @@ connection.on("ReceiveMessage", function(user, message) {
         var guessedWord = document.getElementById("messageInput").value;
 
         if (document.getElementById("isguessing").style.display == "block") {
-            connection.invoke("SendMessageToTarget", "DRAW|" + guessedWord, roomname).catch(function(err) {
+            connection.invoke("SendMessageToTarget", "DRAW|" + document.getElementById("guessedWord").value, roomname).catch(function(err) {
                 return console.error(err.toString());
             });
         } else {
-            connection.invoke("SendMessageToTarget", "GUESS|" + output, roomname).catch(function (err) {
+            document.getElementById("guessedWord").value = "";
+            connection.invoke("SendMessageToTarget", "GUESS|" + picturetosend, roomname).catch(function (err) {
                 return console.error(err.toString());
             });
         }
@@ -96,6 +98,16 @@ document.getElementById("createButton").addEventListener("click", function (even
     });
 
     event.preventDefault();
+});
+
+document.getElementById("updateButton").addEventListener("click", function (event) {
+    var roomname = document.getElementById("group").value;
+    connection.invoke("updateTask", roomname).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    event.preventDefault();
+    
 });
 
 document.getElementById("sendTargetButton").addEventListener("click", function (event) {

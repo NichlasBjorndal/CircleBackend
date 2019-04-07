@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using HackatonCL.repositories;
 using Microsoft.AspNetCore.SignalR;
@@ -42,8 +43,42 @@ namespace HackatonCL.hubs
         
         public async Task InitiateGame(string roomname)
         {
-            await Clients.All.SendAsync("INITIATE");
            await Clients.Group(groupName: roomname).SendAsync("ReceiveMessage", Context.ConnectionId, "INITIATE");
+        }
+
+        public async Task updateTask(string roomname)
+        {
+            var added = groupManager._groups[roomname];
+
+            var user = added.Where(s => s.connectionId == Context.ConnectionId).First();
+
+            var index = added.IndexOf(user);
+            user.solved = true;
+
+            groupManager._groups[roomname][index] = user;
+
+            var all = groupManager._groups[roomname];
+
+            foreach (var VARIABLE in all)
+            {
+                if (VARIABLE.solved == false)
+                {
+                    return;
+                }
+            }
+
+            foreach (var VARIABLE in all)
+            {
+                VARIABLE.solved = false;
+            }
+
+            groupManager._groups[roomname] = all;
+            
+
+            await Clients.Group(groupName: roomname).SendAsync("ReceiveMessage", Context.ConnectionId, "PROCEED");
+
+            
+
         }
 
         public async Task InitiateGameClient()
@@ -60,11 +95,11 @@ namespace HackatonCL.hubs
             var users = groupManager._groups.GetValueOrDefault(roomname);
 
             var count = users.Count;
-            var pos = users.IndexOf(Context.ConnectionId);
+            var pos = users.FindIndex(s => s.connectionId == Context.ConnectionId);
             if (count-1 == pos)
             {
                 var user = users.ElementAt(0);
-                await Clients.Client(connectionId: user).SendAsync("ReceiveMessage", Context.ConnectionId, message);
+                await Clients.Client(connectionId: user.connectionId).SendAsync("ReceiveMessage", Context.ConnectionId, message);
                 return;
             }
             else
@@ -72,7 +107,7 @@ namespace HackatonCL.hubs
 
                 var user = users.ElementAt(pos + 1);
 
-                await Clients.Client(connectionId: user).SendAsync("ReceiveMessage", Context.ConnectionId, message);
+                await Clients.Client(connectionId: user.connectionId).SendAsync("ReceiveMessage", Context.ConnectionId, message);
                 return;
             }
 
@@ -83,16 +118,16 @@ namespace HackatonCL.hubs
 
             if (!groupManager._groups.ContainsKey(roomname))
             {
-                groupManager._groups.Add(roomname, new List<string>{ Context.ConnectionId});
+                groupManager._groups.Add(roomname, new List<UserDetails>{ new UserDetails{connectionId = Context.ConnectionId, solved = false}});
             }
             else
             {
 
                 var added = groupManager._groups[roomname];
-                if (!added.Contains(Context.ConnectionId))
+                if (!added.Exists(s=>s.connectionId == Context.ConnectionId))
                 {
 
-                    added.Add(Context.ConnectionId);
+                    added.Add(new UserDetails{connectionId = Context.ConnectionId, solved = false});
                     groupManager._groups[roomname] = added;
                 }
 
@@ -108,10 +143,6 @@ namespace HackatonCL.hubs
 
         public Task LeaveRoom(string roomname)
         {
-            var added = groupManager._groups.GetValueOrDefault(roomname);
-            added.Remove(Context.ConnectionId);
-            groupManager._groups.Add(roomname, added);
-
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomname);
         }
 

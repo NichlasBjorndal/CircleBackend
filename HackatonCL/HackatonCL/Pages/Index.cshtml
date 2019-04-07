@@ -11,8 +11,9 @@
             <input type="button" id="createButton" value="Create Game" />
             <br />
             
-            <input type="button" id="sendTargetButton" value="Send Target" />
+            <input type="hidden" id="sendTargetButton" value="Send Target" />
             <input type="hidden" id="group" />
+            <input type="hidden" id="picturetosend" />
         </div>
     </div>
 </div>
@@ -43,12 +44,7 @@
 
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
 
-    <form id="submit-form" action="https://localhost:44302/api/pictureUpload" method="post" enctype="multipart/form-data">
-
-        <input type="file" name="File" id="File" single>
-        <input type="submit" class="btn btn-primary">submit</input>
-    </form>
-    <button id="btnSubmit" onclick="sendImage()">Send</button>
+    <button id="btn" onclick="sendImage()">Send</button>
 
 
     <script>
@@ -68,10 +64,10 @@
     
     
     <input type="text" class="form-control" id="guessedWord">
-    <button onclick="sendGuessed()" class="btn btn-primary">Submit</button>
+    <button id="updateButton" class="btn btn-primary">Submit</button>
 </div>
-Message<input type="text" id="messageInput" />
-<input type="button" id="sendButton" value="Send Message" />
+<input type="hidden" id="messageInput" />
+<input type="hidden" id="sendButton" value="Send Message" />
 
 
 
