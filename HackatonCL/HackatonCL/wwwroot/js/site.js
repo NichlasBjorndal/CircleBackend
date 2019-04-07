@@ -13,6 +13,8 @@ canvas.height = 250;
 
 var mouse = { x: 0, y: 0 };
 
+document.getElementById("btnclear").addEventListener("click", clear);
+
 /* Mouse Capturing Work */
 canvas.addEventListener('mousemove', function (e) {
     mouse.x = e.pageX - this.offsetLeft;
@@ -56,6 +58,11 @@ function saveImage() {
     ajax.open("POST", 'https://localhost:44302/api/pictureUpload', false);
     ajax.setRequestHeader('Content-Type', 'application/upload');
     ajax.send(image);
+}
+
+function clear() {
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function sendImage() {
