@@ -86,7 +86,12 @@ function sendImage() {
 			else {
 				console.log('something else other than 200 was returned');
 			}
-		}
+        }
+
+	    document.getElementById("isdrawing").style.display = "none";
+	    document.getElementById("isguessing").style.display = "none";
+	    document.getElementById("iswaiting").style.display = "block";
+	    clear();
 	};
 
     canvas.toBlob(function (blob) {

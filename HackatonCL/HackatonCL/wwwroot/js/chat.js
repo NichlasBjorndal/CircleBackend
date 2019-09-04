@@ -12,9 +12,15 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 //Disable send button until connection is established
 document.getElementById("sendButton").disabled = true;
-connection.on("ReceiveMessage", function(user, message) {
+connection.on("ReceiveMessage", function (user, message) {
+
+
+    document.getElementById("iswaiting").content = "";
+
     console.log(message);
     var output = message.split("|")[1];
+
+    document.getElementById("iswaiting").style.display = "none";
 
     var roomname = document.getElementById("group").value;
     var picturetosend = document.getElementById("picturetosend").value;
@@ -23,13 +29,17 @@ connection.on("ReceiveMessage", function(user, message) {
         document.getElementById("WordBox").innerHTML = output;
         document.getElementById("isdrawing").style.display = "block";
         document.getElementById("isguessing").style.display = "none";
+        document.getElementById("iswaiting").style.display = "none";
     }
     if (message.startsWith("GUESS")) {
         document.getElementById("imagetest").src = "https://localhost:44302/api/picture/" + output;
         document.getElementById("isdrawing").style.display = "none";
         document.getElementById("isguessing").style.display = "block";
+        document.getElementById("iswaiting").style.display = "none";
     }
     if (message.startsWith("PROCEED")) {
+
+        document.getElementById("iswaiting").style.display = "none";
 
         var guessedWord = document.getElementById("messageInput").value;
 
@@ -50,6 +60,8 @@ connection.on("ReceiveMessage", function(user, message) {
 
     if (message.startsWith("INITIATE")) {
 
+        document.getElementById("iswaiting").style.display = "none";
+
 
         document.getElementById("isgrouping").style.display = "none";
         
@@ -67,6 +79,7 @@ connection.start().then(function () {
 });
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
+
     var message = document.getElementById("messageInput").value;
     connection.invoke("SendMessage", message).catch(function (err) {
         return console.error(err.toString());
@@ -118,6 +131,7 @@ document.getElementById("sendTargetButton").addEventListener("click", function (
         return console.error(err.toString());
     });
 
+    document.getElementById("iswaiting").style.display = "block";
     event.preventDefault();
 });
 

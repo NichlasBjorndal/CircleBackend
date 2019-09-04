@@ -21,12 +21,6 @@ namespace HackatonCL.Controllers
             this.messageHubContext = messageHubContext;
         }
 
-        [HttpGet("api/group/{groupName}")]
-        public IEnumerable<string> Getgroup(string groupName)
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         [HttpGet("guessedWord/{user}/{guessedWord}")]
         public async Task<IActionResult> Post(string guessedWord,string user)
         {
